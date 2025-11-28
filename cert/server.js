@@ -14,12 +14,14 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Route for the certificate page
 app.get('/noc/Ecertificate', (req, res) => {
-    res.render('index');
+    const certId = req.query.q || 'NPTEL24HS101S24400138902671928';
+    res.render('index', { certId });
 });
 
 // Root route
 app.get('/', (req, res) => {
-    res.render('index');
+    const certId = req.query.q || 'NPTEL24HS101S24400138902671928';
+    res.render('index', { certId });
 });
 
 // API route to serve the PDF
