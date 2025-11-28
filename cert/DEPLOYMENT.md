@@ -14,8 +14,12 @@ This guide explains how to deploy your Node.js application to DigitalOcean App P
 1.  Log in to DigitalOcean and click **Create** > **Apps**.
 2.  Choose **GitHub** as your source.
 3.  Select your repository and the branch (e.g., `main`).
-4.  **Source Directory**: Since your app is in a nested folder, click **Edit** next to the source directory and select `/cert/cert` (or wherever `package.json` is located).
-5.  **Autodetect**: DigitalOcean should detect it's a Node.js app.
+4.  **IMPORTANT: Source Directory**:
+    - By default, DigitalOcean looks at the root `/`.
+    - You **MUST** click **Edit** (pencil icon) next to the source directory.
+    - Change it from `/` to `/cert`.
+    - If you don't do this, it will say "No components detected" or "target source directory does not exist".
+5.  **Autodetect**: After changing the directory, DigitalOcean should detect the Node.js service.
 6.  **Environment Variables**:
     - App Platform automatically sets `PORT`, and our code now uses `process.env.PORT`, so no special config is needed here.
 7.  **Review & Launch**: Choose a plan (the Basic plan is usually fine for starting) and click **Create Resources**.
