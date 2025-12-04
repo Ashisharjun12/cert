@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import QRCode from 'qrcode';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +23,21 @@ app.get('/noc/Ecertificate', (req, res) => {
 app.get('/', (req, res) => {
     const certId = req.query.q || 'NPTEL24HS101S24400138902671928';
     res.render('index', { certId });
+});
+
+// QR Code Route
+app.get('/qr', async (req, res) => {
+    const certId = req.query.q || 'NPTEL24HS101S24400138902671928';
+    // The user wants to redirect to nptel.ac.fun with the cert ID
+    const targetUrl = `https://nptel.ac.fun/noc/Ecertificate/?q=${certId}`;
+    const displayUrl = `https://nptel.ac.in/noc/Ecertificate/?q=${certId}`;
+    try {
+        const qrImage = await QRCode.toDataURL(targetUrl);
+        res.render('qr', { qrImage, targetUrl, displayUrl, certId });
+    } catch (err) {
+        console.error('Error generating QR code:', err);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 // API route to serve the PDF
